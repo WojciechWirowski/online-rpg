@@ -1,0 +1,46 @@
+/* App.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: hsl(208, 58%, 13%);
+}
+
+.map {
+    position: relative;
+    border: 2px solid #06032c;
+    height: 80vh; /* Adjust the height as needed */
+    width: 100%; /* Span from side to side */
+    overflow: hidden;
+}
+
+.player,
+.enemy {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.player {
+    background-color: #4caf50; /* Green color */
+}
+
+.enemy {
+    background-color: #f44336; /* Red color */
+}
+
+/* Health and Attack in the top right corner */
+.top-right-stats {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+}
