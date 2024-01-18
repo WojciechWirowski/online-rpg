@@ -1,3 +1,41 @@
+// Hi creator,
+Feel welcome to try out my game or check code. It is a key for me to get criticism from users and I beg You to tell loud whats wrong about anything
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
