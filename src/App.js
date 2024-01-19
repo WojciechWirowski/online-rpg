@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './App.css';
 
 function App() {
   const [player, setPlayer] = useState({
     health: 100,
     attack: 10,
+    speed: 5,
     position: { x: 0, y: 0 },
   });
 
@@ -14,11 +15,17 @@ function App() {
     // Add more enemies as needed
   ]);
 
-  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
+  const [mapSize, setMapSize] = useState({ width: 0, height: 0 });
+  const [keysPressed, setKeysPressed] = useState(new Set());
+
+  const mapRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
-      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+      setMapSize({
+        width: mapRef.current.clientWidth,
+        height: mapRef.current.clientHeight,
+      });
     };
 
     // Initial setup
@@ -27,56 +34,66 @@ function App() {
     // Event listener for window resize
     window.addEventListener("resize", handleResize);
 
-    // Event listener for keyboard arrow keys
+    // Event listeners for keyboard arrow keys
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [keysPressed]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMapSize({
+        width: mapRef.current.clientWidth,
+        height: mapRef.current.clientHeight,
+      });
+    };
+
+    // Initial setup
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const handleKeyDown = (event) => {
-    switch (event.key) {
-      case 'ArrowUp':
-        handleMove('UP');
-        break;
-      case 'ArrowDown':
-        handleMove('DOWN');
-        break;
-      case 'ArrowLeft':
-        handleMove('LEFT');
-        break;
-      case 'ArrowRight':
-        handleMove('RIGHT');
-        break;
-      default:
-        break;
-    }
+    setKeysPressed((prevKeys) => new Set([...prevKeys, event.key]));
   };
 
-  const handleMove = (direction) => {
+  const handleKeyUp = (event) => {
+    setKeysPressed((prevKeys) => {
+      const newKeys = new Set(prevKeys);
+      newKeys.delete(event.key);
+      return newKeys;
+    });
+  };
+
+  const handleMove = () => {
     setPlayer((prevPlayer) => {
       const newPosition = { ...prevPlayer.position };
+      const stepSize = player.speed;
 
-      const speed = 5;
-
-      switch (direction) {
-        case 'UP':
-          newPosition.y = Math.max(newPosition.y - speed, 0);
-          break;
-        case 'DOWN':
-          newPosition.y = Math.min(newPosition.y + speed, screenSize.height - 1);
-          break;
-        case 'LEFT':
-          newPosition.x = Math.max(newPosition.x - speed, 0);
-          break;
-        case 'RIGHT':
-          newPosition.x = Math.min(newPosition.x + speed, screenSize.width - 1);
-          break;
-        default:
-          break;
+      if (keysPressed.has('ArrowUp')) {
+        newPosition.y = Math.max(newPosition.y - stepSize, 0);
+      }
+      if (keysPressed.has('ArrowDown')) {
+        newPosition.y = Math.min(newPosition.y + stepSize, mapSize.height - 50);
+      }
+      if (keysPressed.has('ArrowLeft')) {
+        newPosition.x = Math.max(newPosition.x - stepSize, 0);
+      }
+      if (keysPressed.has('ArrowRight')) {
+        newPosition.x = Math.min(newPosition.x + stepSize, mapSize.width - 50);
       }
 
       return {
@@ -86,6 +103,40 @@ function App() {
     });
   };
 
+  const handleEnemyMove = () => {
+    setEnemies((prevEnemies) => {
+      return prevEnemies.map((enemy) => {
+        const direction = Math.random() < 0.5 ? -1 : 1; // Randomly choose left or right
+        const newPosition = { ...enemy.position };
+        const stepSize = 5;
+
+        if (Math.random() < 0.5) {
+          newPosition.x = Math.max(newPosition.x - direction * stepSize, 0);
+        } else {
+          newPosition.x = Math.min(newPosition.x + direction * stepSize, mapSize.width - 50);
+        }
+        if (Math.random() < 0.5) {
+          newPosition.y = Math.max(newPosition.x - direction * stepSize, 0);
+        } else {
+          newPosition.y = Math.min(newPosition.x + direction * stepSize, mapSize.width - 50);
+        }
+        return {
+          ...enemy,
+          position: newPosition,
+        };
+      });
+    });
+  };
+
+  useEffect(() => {
+    const movementInterval = setInterval(() => {
+      handleMove();
+      handleEnemyMove();
+    }, 16); // Adjust the interval as needed
+
+    return () => clearInterval(movementInterval);
+  }, [keysPressed]);
+
   return (
     <div className="game-container">
       <div>
@@ -94,12 +145,12 @@ function App() {
         <p>Attack: {player.attack}</p>
       </div>
 
-      <div className="map">
+      <div className="map" ref={mapRef}>
         {enemies.map((enemy) => (
           <div
             key={enemy.id}
             className="enemy"
-            style={{ top: `${enemy.position.y * 50}px`, left: `${enemy.position.x * 50}px` }}
+            style={{ top: `${enemy.position.y}px`, left: `${enemy.position.x}px` }}
           />
         ))}
 
