@@ -22,3 +22,18 @@ body {
     background-color: rgb(185, 162, 133);
     padding: 10px;
 }
+.map-content {
+    height: 96%;
+    width: 96%;
+    padding: 2%;
+    border: 1px solid #3d3d3d
+}
+.map1 {
+    background-color: rgb(74, 90, 74);
+}
+.map2 {
+    background-color: rgb(64, 73, 82);
+}
+.map3 {
+    background-color: #816a6a;
+}
