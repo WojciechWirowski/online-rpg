@@ -1,0 +1,24 @@
+/* App.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.gameContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.characterStats {
+    height: 150px;
+    background-color: rgb(105, 84, 64);
+    padding: 10px;
+}
+
+.gameArena {
+    flex: 1;
+    background-color: rgb(185, 162, 133);
+    padding: 10px;
+}
