@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import CharacterStats from './components/CharacterStats';
 import GameArena from './components/GameArena';
+import Grid from './components/Grid';
 import './App.css';
 
 const Game = () => {

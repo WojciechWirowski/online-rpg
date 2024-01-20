@@ -26,7 +26,8 @@ body {
     height: 96%;
     width: 96%;
     padding: 2%;
-    border: 1px solid #3d3d3d
+    border: 1px solid #3d3d3d;
+    position: relative;
 }
 .map1 {
     background-color: rgb(74, 90, 74);
@@ -36,4 +37,17 @@ body {
 }
 .map3 {
     background-color: #816a6a;
+}
+
+.grid {
+    display: grid;
+    border: 1px solid #ccc;
+}
+
+.grid-cell {
+    border: 1px solid #eee;
+}
+
+.occupied {
+    background-color: green;
 }
