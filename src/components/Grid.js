@@ -1,27 +1,29 @@
 // Grid.js
 
 import React, { useEffect, useState } from 'react';
-import './Player.css'; // Import player styles
-import Player from './Player'; // Import the Player component
-import '../App.css'; // Import your main styles
+import '../App.css';
 
 const Grid = ({ rows, columns, placedObjects }) => {
   const [cellSize, setCellSize] = useState(0);
 
   useEffect(() => {
+    // Calculate the cell size to fill the screen height
     const screenHeight = window.innerHeight;
     const calculatedCellSize = Math.floor(screenHeight / rows);
+
+    // Update the state with the calculated cell size
     setCellSize(calculatedCellSize);
 
+    // Event listener for window resize to recalculate cell size
     const handleResize = () => {
       const newScreenHeight = window.innerHeight;
       const newCellSize = Math.floor(newScreenHeight / rows);
       setCellSize(newCellSize);
-      console.log(newCellSize)
     };
 
     window.addEventListener('resize', handleResize);
 
+    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -34,13 +36,9 @@ const Grid = ({ rows, columns, placedObjects }) => {
 
   return (
     <div className='grid' style={gridStyle}>
-      {/* Apply player class conditionally based on player's position */}
       {Array.from({ length: rows * columns }, (_, index) => (
         <div key={index} className={`grid-cell ${placedObjects.includes(index) ? 'occupied' : ''}`} />
       ))}
-      
-      {/* Render the Player component */}
-      <Player rows={rows} columns={columns} />
     </div>
   );
 };
