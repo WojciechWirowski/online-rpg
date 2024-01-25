@@ -50,10 +50,6 @@ body {
   margin: auto;
 }
 
-.grid-cell {
-  border: 1px solid #eee;
-}
-
 .occupied {
   background-color: green;
 }

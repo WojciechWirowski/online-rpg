@@ -1,9 +1,9 @@
-// Grid.js
 
 import React, { useEffect, useState } from 'react';
 import '../App.css';
+import Player from './Player';
 
-const Grid = ({ rows, columns, placedObjects }) => {
+const Grid = ({ rows, columns, placedObjects, player, onMove}) => {
   const [cellSize, setCellSize] = useState(0);
 
   useEffect(() => {
@@ -37,8 +37,12 @@ const Grid = ({ rows, columns, placedObjects }) => {
   return (
     <div className='grid' style={gridStyle}>
       {Array.from({ length: rows * columns }, (_, index) => (
-        <div key={index} className={`grid-cell ${placedObjects.includes(index) ? 'occupied' : ''}`} />
+        <div
+          key={index}
+          className={`grid-cell ${placedObjects.includes(index) ? 'occupied' : ''}`}
+        />
       ))}
+      <Player player={player} onMove={onMove}/>
     </div>
   );
 };
