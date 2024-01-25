@@ -8,16 +8,24 @@ const Player = ({ player, onMove }) => {
     const handleKeyDown = (event) => {
       switch (event.key) {
         case 'ArrowUp':
-          onMove({ ...player.position, x: player.position.x - 1 });
+          if (player.position.x > 0) {
+            onMove({ ...player.position, x: player.position.x - 1 });
+          }
           break;
         case 'ArrowDown':
-          onMove({ ...player.position, x: player.position.x + 1 });
+          if (player.position.x < 39) {
+            onMove({ ...player.position, x: player.position.x + 1 });
+          }
           break;
         case 'ArrowLeft':
-          onMove({ ...player.position, y: player.position.y - 1 });
+          if (player.position.y > 0) {
+            onMove({ ...player.position, y: player.position.y - 1 });
+          }
           break;
         case 'ArrowRight':
-          onMove({ ...player.position, y: player.position.y + 1 });
+          if (player.position.y < 39) {
+            onMove({ ...player.position, y: player.position.y + 1 });
+          }
           break;
         default:
           break;
