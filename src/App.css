@@ -5,7 +5,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh; /* Use min-height to ensure the body takes at least the entire viewport height */
-  background-color: #d4b661;
+  background-image: url("./images/bg.png");
 }
 
 .gameContainer {
@@ -52,4 +52,16 @@ body {
 
 .occupied {
   background-color: green;
+}
+
+.grass {
+ background-color: #b60303;
+}
+
+.tree {
+  background-color: #2a03b6;
+}
+
+.rock {
+  background-color: #ffee00;
 }
